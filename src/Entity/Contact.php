@@ -3,7 +3,7 @@
 namespace Contact\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Zend\Form\Annotation;
+use Laminas\Form\Annotation;
 use Doctrine\Common\Collections\ArrayCollection;
 use Application\Model\UnityOfWork;
 
@@ -23,7 +23,7 @@ class Contact extends UnityOfWork {
 
     /**
      * @ORM\Column(name="salutation", type="integer", length=1, nullable=true)
-     * @Annotation\Type("Zend\Form\Element\Radio")
+     * @Annotation\Type("Laminas\Form\Element\Radio")
      * @Annotation\Attributes({"class":"form-control"})
      * @Annotation\Options({
      * "label": "Aanhef", 

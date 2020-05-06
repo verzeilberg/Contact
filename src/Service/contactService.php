@@ -2,10 +2,10 @@
 
 namespace Contact\Service;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Mail;
-use Zend\Mime\Part as MimePart;
-use Zend\Mime\Message as MimeMessage;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\Mail;
+use Laminas\Mime\Part as MimePart;
+use Laminas\Mime\Message as MimeMessage;
 
 /*
  * Entities
