@@ -17,9 +17,16 @@ class ContactController extends AbstractActionController {
         $this->contactService = $contactService;
     }
 
-    public function indexAction() {
+    /**
+     * @return ViewModel
+     */
+    public function indexAction(): ViewModel
+    {
         $this->layout('layout/beheer');
-        $contactForms = $this->contactService->getContacts();
+        $page = $this->params()->fromQuery('page', 1);
+        $query = $this->contactService->getContacts();
+        $contactForms = $this->contactService->getItemsForPagination($query, $page, 10);
+
         return new ViewModel(
                 array(
             'contactForms' => $contactForms,

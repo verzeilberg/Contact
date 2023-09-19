@@ -2,6 +2,9 @@
 
 namespace Contact\Service;
 
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
+use Laminas\Paginator\Paginator;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\Mail;
 use Laminas\Mime\Part as MimePart;
@@ -13,6 +16,7 @@ use Laminas\Mime\Message as MimeMessage;
 use Contact\Entity\Contact;
 
 class contactService implements contactServiceInterface {
+    private mixed $entityManager;
 
     /**
      * Constructor.
@@ -22,29 +26,24 @@ class contactService implements contactServiceInterface {
     }
 
     /**
-     *
      * Get array of contacts
-     *
-     * @return      array
-     *
      */
-    public function getContacts() {
+    public function getContacts()
+    {
 
-        $contacts = $this->entityManager->getRepository(Contact::class)
-                ->findBy([], ['dateCreated' => 'DESC']);
-        
-        return $contacts;
+        $qb = $this->entityManager->getRepository(Contact::class)->createQueryBuilder('c')
+            ->orderBy('c.dateCreated', 'DESC');
+        return $qb->getQuery();
     }
-    
-        /**
+
+    /**
      *
      * Get blog object based on id
-     *
      * @param       id  $id The id to fetch the blog from the database
      * @return      object
-     *
      */
-    public function getContactFormById($id) {
+    public function getContactFormById($id): object
+    {
         $contactForm = $this->entityManager->getRepository(Contact::class)
                 ->findOneBy(['id' => $id], []);
 
@@ -118,6 +117,21 @@ class contactService implements contactServiceInterface {
         } catch (Exception $e) {
             echo 'Caught exception: ', $e->getMessage(), "\n";
         }
+    }
+
+    /**
+     * @param $query
+     * @param int $currentPage
+     * @param int $itemsPerPage
+     * @return Paginator
+     */
+    public function getItemsForPagination($query, int $currentPage = 1, int $itemsPerPage = 10)
+    {
+        $adapter = new DoctrineAdapter(new ORMPaginator($query, false));
+        $paginator = new Paginator($adapter);
+        $paginator->setDefaultItemCountPerPage($itemsPerPage);
+        $paginator->setCurrentPageNumber($currentPage);
+        return $paginator;
     }
 
     /**

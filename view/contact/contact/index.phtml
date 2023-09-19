@@ -1,58 +1,61 @@
-<?php
-$this->mainMenu()->setActiveItemId('overviewcontact');
-$this->pageBreadcrumbs()->setLayout('beheer');
-$this->pageBreadcrumbs()->setItems([
-    'Beheer' => $this->url('beheer'),
-    'Contact' => $this->url('beheer/contact'),
-]);
-?>
-<!-- Page Header -->
-<div class="row">
-    <h1 class="col">CONTACT BEHEER</h1>
-</div>
-<!-- Breadcrumbs -->
-<div class="row">
-    <div class="col">
-        <?= $this->pageBreadcrumbs()->render(); ?>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        <table class="table table-dark table-sm table-bordered table-hover table-striped">
-            <thead class="thead-dark">
-            <tr>
-                <th>Aanhef</th>
-                <th>Naam</th>
-                <th>E-mail</th>
-                <th>Onderwerp</th>
-                <th>Verstuurd op</th>
-                <th class="text-center"><i class="fas fa-cogs"></i></th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php if (count($contactForms) > 0) { ?>
-                <?php foreach ($contactForms AS $contactForm) { ?>
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-md-12 col-xl-12">
+            <div class="bg-secondary rounded  p-4">
+                <div class="row g-4">
+                    <h2 class="col-sm-12 col-md-12 col-xl-12 mb-4">Contactformulieren</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-xl-12">
+            <div class="bg-secondary rounded  p-4">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead class="thead-dark">
                     <tr>
-                        <td><?php echo $contactForm->getSalutation(); ?></td>
-                        <td><?php echo $contactForm->getName(); ?></td>
-                        <td><?php echo $contactForm->getEmail(); ?></td>
-                        <td><?php echo $contactForm->getSubject(); ?></td>
-                        <td><?php echo(is_object($contactForm->getDateCreated()) ? $contactForm->getDateCreated()->format('d-m-Y') : ''); ?></td>
-                        <td class="text-center">
-                            <a class="btn btn-sm btn-secondary">
-                                <i class="fas fa-envelope"></i>
-                            </a>
-                            <a class="btn btn-sm btn-danger" href="
-                       <?= $this->url('beheer/contact', ['action' => 'delete', 'id' => $contactForm->getId()]); ?>">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                        </td>
+                        <th>Aanhef</th>
+                        <th>Naam</th>
+                        <th>E-mail</th>
+                        <th>Onderwerp</th>
+                        <th>Verstuurd op</th>
+                        <th class="text-center"><i class="fas fa-cogs"></i></th>
                     </tr>
-                <?php } ?>
-            <?php } else { ?>
-                <td colspan="7" class="text-center">Geen contactformulieren gevonden.</td>
-            <?php } ?>
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                    <?php if (count($contactForms) > 0) { ?>
+                        <?php foreach ($contactForms as $contactForm) { ?>
+                            <tr>
+                                <td><?php echo $contactForm->getSalutation(); ?></td>
+                                <td><?php echo $contactForm->getName(); ?></td>
+                                <td><?php echo $contactForm->getEmail(); ?></td>
+                                <td><?php echo $contactForm->getSubject(); ?></td>
+                                <td><?php echo(is_object($contactForm->getDateCreated()) ? $contactForm->getDateCreated()->format('d-m-Y') : ''); ?></td>
+                                <td class="text-center">
+                                    <a class="btn btn-sm btn-secondary">
+                                        <i class="fas fa-envelope"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-danger" href="
+                       <?= $this->url('beheer/contact', ['action' => 'delete', 'id' => $contactForm->getId()]); ?>">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    <?php } else { ?>
+                        <td colspan="7" class="text-center">Geen contactformulieren gevonden.</td>
+                    <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row g-4">
+        <div class="col-sm-12 col-md-12 col-xl-12">
+            <div class="bg-secondary rounded  mt-4 p-4">
+                <?= $this->paginationControl($contactForms,
+                    'Sliding',
+                    'layout/paginator',
+                    array('route' => 'beheer/blog')) ?>
+            </div>
+        </div>
     </div>
 </div>
